@@ -2,7 +2,7 @@
 
 **ShopSmart AI** is an advanced shopping guidance assistant designed to enhance the online shopping experience by providing personalized product recommendations, answering specific queries, and facilitating feature comparisons. Leveraging **Retrieval-Augmented Generation (RAG)** and **LLaRA (Large Language Recommendation Assistant)**, this project integrates large language models (LLMs) to create a dynamic and interactive shopping assistant.
 
-## Project Overview
+## What is ShopSmart?
 
 As online shopping becomes increasingly complex, traditional recommender systems often struggle with personalization and understanding nuanced user needs. ShopSmart AI aims to address these limitations by combining information retrieval techniques with generative LLMs to deliver relevant, tailored guidance to shoppers.
 
@@ -34,7 +34,7 @@ As online shopping becomes increasingly complex, traditional recommender systems
 
 ## Getting Started
 
-- Clone the repository: `git clone https://github.com/yourusername/ShopSmartAI.git`
+- Clone the repository: `git clone https://github.com/syccxdr/ShopSmartAI.git`
 - Follow setup instructions in the `INSTALL.md` for dependencies and environment setup.
 
 ## Contributors
