@@ -7,7 +7,7 @@
 As online shopping becomes increasingly complex, traditional recommender systems often struggle with personalization and understanding nuanced user needs. ShopSmart AI aims to address these limitations by combining information retrieval techniques with generative LLMs to deliver relevant, tailored guidance to shoppers.
 
 <p align="center">
-  <img src='pic/demo.png' width="100%">
+  <img src='Overview.png' width="100%">
 </p>
 
 ## Key Features
