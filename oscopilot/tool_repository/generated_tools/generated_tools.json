@@ -1,1 +1,6 @@
-{}
+{
+    "check_word_in_files": {
+        "code": "def check_word_in_files(file_paths, target_word):\n    \"\"\"\n    Check if a specific word is present in each text file.\n\n    Args:\n    file_paths (list): A list of file paths to be checked.\n    target_word (str): The word to be searched in the text files.\n\n    Returns:\n    list: A list of tuples where each tuple contains the file path and a boolean indicating if the word was found in that file.\n    \"\"\"\n    results = []\n    for file_path in file_paths:\n        try:\n            with open(file_path, 'r') as file:\n                content = file.read()\n                if target_word in content:\n                    results.append((file_path, True))\n                else:\n                    results.append((file_path, False))\n        except FileNotFoundError:\n            results.append((file_path, False))\n    \n    return results",
+        "description": "Check if a specific word is present in each text file"
+    }
+}
