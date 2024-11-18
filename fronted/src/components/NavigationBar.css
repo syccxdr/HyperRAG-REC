@@ -1,0 +1,28 @@
+.nav-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #6200ea;
+    color: white;
+    padding: 10px 20px;
+  }
+  
+  .logo {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .menu .menu-btn {
+    margin-left: 10px;
+    background-color: white;
+    color: #6200ea;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .menu .menu-btn:hover {
+    background-color: #ddd;
+  }
+  
