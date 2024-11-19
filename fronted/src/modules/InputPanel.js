@@ -178,6 +178,14 @@ function InputPanel(props) {
           disabled={promptsDisabled}
           value={prompts}
           onChange={(event) => setPrompts(event.target.value)}
+          onKeyDown={(event) => {
+            if (event.key === "Enter" && event.shiftKey) {
+              event.preventDefault(); // 阻止默认行为
+              if (prompts.trim().length > 0) {
+                handleClickSend(); // 调用发送逻辑
+              }
+            }
+          }}
           startDecorator={dropFile &&
             <Chip
               color="primary"
