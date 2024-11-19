@@ -30,7 +30,7 @@ const Span = styled('div')(({ theme }) => ({
 
 function InputPanel(props) {
   const {
-    sessionList,
+    sessionList = [],
     setSessionList
   } = props
 
