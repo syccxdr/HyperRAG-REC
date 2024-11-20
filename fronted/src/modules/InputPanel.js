@@ -292,6 +292,7 @@ function InputPanel(props) {
                   >
                     <DeleteOutlineIcon
                         onClick={() => { setSessionList([]) }}
+                        sx={{ fontSize: "2rem" }} // 调整垃圾桶图标大小
                     />
                   </IconButton>
                   <IconButton
@@ -301,6 +302,7 @@ function InputPanel(props) {
                       sx={{
                         backgroundColor: isListening ? "#0A6BCB" : "#EFF3F7", // 默认状态与启动状态颜色
                         color: isListening ? "white" : "inherit", // 启动时字体为白色
+                        fontSize: "2rem", // 调整麦克风图标大小
                         '&:hover': {
                           backgroundColor: isListening ? "#0288d1" : "var(--joy-palette-neutral-400)", // 悬停状态动态颜色
                         },
@@ -314,6 +316,7 @@ function InputPanel(props) {
                       loading={sendButtonLoading}
                       loadingPosition="end"
                       endDecorator={<SendIcon />}
+                      endDecorator={<SendIcon sx={{ fontSize: "2rem" }} />} // 调整Send图标大小
                       variant="solid"
                       children="SEND"
                       onClick={handleClickSend}
