@@ -182,4 +182,5 @@ def generate_response_sambanova(prompt, model="Meta-Llama-3.1-405B-Instruct"):
 # Run the app using uvicorn
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    # 更改host为0.0.0.0，支持外部访问；端口10012
+    uvicorn.run(app, host= "0.0.0.0", port=10012)
