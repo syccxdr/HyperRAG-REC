@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { styled } from "@mui/joy/styles";
-import ListItemDecorator from "@mui/joy/ListItemDecorator";
 import Avatar from "@mui/joy/Avatar";
 import Typography from "@mui/joy/Typography";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
+import IconButton from "@mui/joy/IconButton";
 
 // 引入头像图片
 import userAvatar from "../assets/images/avatar.webp";
+import blankAvatar from "../assets/images/blank.webp"; // 引入默认的空白头像
 
 const SettingsContainer = styled("div")({
     padding: "20px",
@@ -27,56 +28,95 @@ const SettingsRow = styled("div")({
     gap: "10px", // 设置图标与文本的间隔
 });
 
-function Settings() {
+function Settings({ setSessionList }) {
+    const [userName, setUserName] = useState("HKUer"); // 默认用户名
+    const [avatar, setAvatar] = useState(userAvatar); // 默认头像
+
     const handleLogout = () => {
-        alert("Logout clicked!");
-        // 这里可以添加实际的退出逻辑，例如重定向或清除 token
+        alert("You have been logged out.");
+        localStorage.setItem("userName", "-"); // 更新用户名为 "-"
+        localStorage.setItem("userAvatar", blankAvatar); // 更新头像为空白头像
+        setUserName("-"); // 更新组件状态
+        setAvatar(blankAvatar); // 更新头像状态
+
+        if (setSessionList) {
+            setSessionList([]); // 确保清空对话框内容
+        }
     };
 
     return (
         <SettingsContainer>
             {/* 设置选项 */}
             <SettingsRow>
-                <ListItemDecorator
+                <IconButton
                     sx={{
-                        minWidth: "auto", // 避免默认宽度太大
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "10px", // 间隔图标和文本
+                        backgroundColor: "transparent", // 默认无背景颜色
+                        color: "inherit", // 默认字体颜色
+                        fontSize: "2rem", // 调整图标大小
+                        '&:hover': {
+                            backgroundColor: "#EFF3F7", // 悬停背景色
+                            color: "inherit", // 悬停字体和图标颜色
+                        },
                     }}
                 >
                     <SettingsIcon
                         sx={{
-                            fontSize: 36, // 设置小齿轮的大小与头像一致
+                            fontSize: 36, // 设置小齿轮的大小
                         }}
                     />
-                </ListItemDecorator>
-                <Typography level="body1">Settings</Typography>
+                    <Typography
+                        level="body1"
+                        sx={{
+                            fontSize: "16px", // 与 Logout 字体大小一致
+                            fontWeight: "400", // 字重与 Logout 一致
+                        }}
+                    >
+                        Settings
+                    </Typography>
+                </IconButton>
             </SettingsRow>
 
             {/* 退出选项 */}
             <SettingsRow>
-                <ListItemDecorator
+                <IconButton
+                    onClick={handleLogout}
                     sx={{
-                        minWidth: "auto",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "10px", // 间隔图标和文本
+                        backgroundColor: "transparent", // 默认无背景颜色
+                        color: "inherit", // 默认字体颜色
+                        fontSize: "2rem", // 调整图标大小
+                        '&:hover': {
+                            backgroundColor: "#EFF3F7", // 悬停背景色
+                            color: "inherit", // 悬停字体和图标颜色
+                        },
                     }}
                 >
                     <LogoutIcon
                         sx={{
-                            fontSize: 36, // 设置登出图标的大小
+                            fontSize: 36, // 设置登出图标大小
                         }}
                     />
-                </ListItemDecorator>
-                <Typography
-                    level="body1"
-                    sx={{ cursor: "pointer" }} // 鼠标指针变为手型
-                    onClick={handleLogout}
-                >
-                    Logout
-                </Typography>
+                    <Typography
+                        level="body1"
+                        sx={{
+                            fontSize: "16px", // 与 Settings 字体大小一致
+                            fontWeight: "400", // 字重与 Settings 一致
+                        }}
+                    >
+                        Logout
+                    </Typography>
+                </IconButton>
             </SettingsRow>
 
             {/* 用户信息 */}
             <SettingsRow>
                 <Avatar
-                    src={userAvatar} // 使用头像图片
+                    src={avatar} // 动态使用头像图片
                     alt="User Avatar"
                     sx={{
                         width: 40, // 设置头像宽度
@@ -84,7 +124,7 @@ function Settings() {
                     }}
                 />
                 <Typography level="body1" sx={{ fontWeight: "bold" }}>
-                    HKUer
+                    {userName}
                 </Typography>
             </SettingsRow>
         </SettingsContainer>
