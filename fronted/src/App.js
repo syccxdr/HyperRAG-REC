@@ -3,8 +3,6 @@ import { CssVarsProvider, styled } from "@mui/joy/styles";
 import globalTheme from "./theme";
 import Session from "./modules/Session";
 import InputPanel from "./modules/InputPanel";
-// import NavigationBar from "./components/NavigationBar";
-// import ChatBox from "./components/ChatBox";
 import UserProfileComponent from "./components/UserProfile";
 import Settings from "./components/Settings";
 import shopsmart from './assets/images/shopsmart.webp';
@@ -45,30 +43,31 @@ const ChatContainer = styled("div")({
 });
 
 function App() {
-  const [sessionList, setSessionList] = React.useState([]);
-  
+  const [sessionList, setSessionList] = React.useState([]); // 管理对话框的状态
+
   return (
-    <CssVarsProvider theme={globalTheme}>
-      <Root>
-        <Sidebar>
-          <Logo>
-            <img src={shopsmart} alt="AI Shopping Assistant" />
-          </Logo>
-          <UserProfileComponent />
-          <Settings />
-        </Sidebar>
-        <ChatContainer>
-          <Session 
-            sessionList={sessionList}
-            setSessionList={setSessionList}
-          />
-          <InputPanel 
-            sessionList={sessionList}
-            setSessionList={setSessionList}
-          />
-        </ChatContainer>
-      </Root>
-    </CssVarsProvider>
+      <CssVarsProvider theme={globalTheme}>
+        <Root>
+          <Sidebar>
+            <Logo>
+              <img src={shopsmart} alt="AI Shopping Assistant" />
+            </Logo>
+            <UserProfileComponent />
+            {/* 将 setSessionList 传递给 Settings */}
+            <Settings setSessionList={setSessionList} />
+          </Sidebar>
+          <ChatContainer>
+            <Session
+                sessionList={sessionList}
+                setSessionList={setSessionList}
+            />
+            <InputPanel
+                sessionList={sessionList}
+                setSessionList={setSessionList}
+            />
+          </ChatContainer>
+        </Root>
+      </CssVarsProvider>
   );
 }
 
