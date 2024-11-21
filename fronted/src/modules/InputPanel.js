@@ -180,31 +180,38 @@ function InputPanel(props) {
 
     setDropFile(null);
     const filename = savedPrompts.file
-        ? window.require
-            ? window.require("path").basename(savedPrompts.file)
-            : savedPrompts.file.split("/").slice(-1)[0]
-        : null;
-    handleAddBubble(true, savedPrompts.prompts, filename)
+      ? savedPrompts.file.split("/").slice(-1)[0]
+      : null;
+      
+    handleAddBubble(true, savedPrompts.prompts, filename);
+    
+    // 创建一个空的AI回复气泡
+    handleAddBubble(false, '', null);
+    
     sendPrompts(savedPrompts.prompts, savedPrompts.file, {
-      handleAddBubble: handleAddBubble,
-      handleAddStep: handleAddStep,
-      handleStepNew: handleStepNew,
-      handleStepFin: handleStepFin
+      handleAddBubble: (fromUser, content) => {
+        // 更新最后一条消息
+        setSessionList(prev => {
+          const newList = [...prev];
+          newList[newList.length - 1] = {
+            type: "Bubble",
+            fromUser: false,
+            content: content,
+            attached: null
+          };
+          return newList;
+        });
+      }
     })
-        .then((_) => {
-          handleAddBanner("success", "Current task execution completed.");
-        })
-        .catch((err) => {
-          console.error(err);
-          err && handleAddBanner("danger", err.info ? err.info : err.toString());
-        })
-        .finally(() => {
-          setPromptsDisabled(false);
-          setSendButtonLoading(false);
-          setSavedPrompts({ prompts: "", file: null });
-        })
-    // WARNING: savedPrompts ONLY changed in handleClickSend()
-    // eslint-disable-next-line
+      .catch((err) => {
+        console.error(err);
+        handleAddBanner("danger", err.toString());
+      })
+      .finally(() => {
+        setPromptsDisabled(false);
+        setSendButtonLoading(false);
+        setSavedPrompts({ prompts: "", file: null });
+      });
   }, [savedPrompts]);
 
   const onDrop = React.useCallback((acceptedFiles) => {

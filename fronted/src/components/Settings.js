@@ -22,7 +22,7 @@ function Settings() {
             <ListItemDecorator>
               <SettingsIcon />
             </ListItemDecorator>
-            系统设置
+            Settings
           </ListItemButton>
         </ListItem>
       </List>

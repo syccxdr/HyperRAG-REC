@@ -1,10 +1,20 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from transformers import pipeline
+from fastapi.middleware.cors import CORSMiddleware
 from openai import OpenAI
 
 # Initialize FastAPI app
 app = FastAPI()
+
+# Enable CORS for cross-origin requests
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow all origins
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Initialize SambaNova client
 sambanova_client = OpenAI(base_url="https://api.sambanova.ai/v1", api_key="c76c56fc-ca20-48c0-9798-9f697403d975")

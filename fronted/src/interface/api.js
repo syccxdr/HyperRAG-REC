@@ -23,114 +23,69 @@ const getEnvironment = shuntSpawner(
   }
 );
 
-const sendPrompts = shuntSpawner(
-  () => new Promise((resolve, _) => {
-    setTimeout(resolve, 750);
-  })
-)(
-  (prompts, attachedFilePath, operators) => new Promise((resolve, reject) => {
-    const path = window.require("path");
-    const fs = window.require("fs");
-    const { exec } = window.require("child_process");
-    const {
-      handleAddBubble,
-      handleAddStep,
-      handleStepNew,
-      handleStepFin
-    } = operators;
+export const sendPrompts = async (prompts, attachedFilePath, operators) => {
+  const { handleAddBubble } = operators;
+  
+  try {
+    const response = await fetch('https://api.chatanywhere.tech/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer sk-jNRAesIpZAcoFaX2kP32JDGMeXWuJoCNs6cb5CVdd3mEJVGU'
+      },
+      body: JSON.stringify({
+      "model": "gpt-3.5-turbo",
+      "messages": [
+         {
+            "role": "system",
+            "content": "You are an intelligent e-commerce assistant named ShopSmart AI. Your role is to help users with their online shopping needs. You provide personalized product recommendations, answer questions about product features, compare items, and assist with shopping decisions.",
+         },
+         {
+            "role": "user",
+            "content": prompts
+         }
+      ],
+        "stream": true
+      })
+    });
 
-    const wrapper = (str) => "\"" + str.replaceAll("\"", "\\\"") + "\"";
-    const pythonCommand = (env, condaName, filePath, arg) => {
-      const envList = Object
-        .keys(env)
-        .filter((key) => env[key] !== undefined)
-        .map((key) => `${key}=${wrapper(env[key])}`)
-      const pyList = [
-        condaName !== undefined
-          ? `conda run -n ${condaName} python ${filePath}`
-          : `python ${filePath}`
-      ];
-      const argList = Object
-        .keys(arg)
-        .filter((key) => arg[key] !== undefined)
-        .map((key) => `--${key}=${wrapper(arg[key])}`)
-      return envList.concat(pyList).concat(argList).join(" ");
-    }
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let accumulatedResponse = '';
 
-    const {
-      REACT_APP_PATH: fridayDirPath,
-      REACT_APP_CONDA: condaName,
-      REACT_APP_PROXY: proxyURL,
-      REACT_APP_MIRROR: mirrorURL,
-    } = getEnvironment();
-    if (typeof fridayDirPath !== "string") {
-      reject("Error: field REACT_APP_PATH not found. Please check your config in .env file.")
-    }
-
-    const absolutePath = path.resolve(fridayDirPath);
-    const queryID = new Date().getTime().toString();
-    const logFileName = `${queryID}.log`;
-    const prefix = Array(4).fill().reduce(
-      (current) =>
-        current + Math.random().toString(36).slice(2, 6),
-      ""
-    )
-
-    let recordIndex = 0;
-    const fingerprint = prefix;
-    const timerID = setInterval(() => {
-      const logFilePath = path.join(absolutePath, logDirectoryName, logFileName);
-      if (!fs.existsSync(logFilePath)) {
-        return;
-      }
-
-      const logRecord = fs.readFileSync(logFilePath).toString().split(`[${prefix}] `).slice(1)
-      const newRecord = logRecord.slice(recordIndex);
-      recordIndex = logRecord.length;
-      newRecord.forEach((item) => {
-        const log = item.slice(33);
-        const trimmed = log.split(":").slice(1).join(":").slice(1);
-        if (/^Overall Response: /.test(log)) {
-          handleAddBubble(false, trimmed);
-          handleAddStep(fingerprint);
-        } else if (/^The current subtask is: /.test(log)) {
-          handleStepNew(fingerprint, trimmed);
-        } else if (/^The subtask result is: /.test(log)) {
-          const result = JSON.parse(trimmed);
-          handleStepFin(fingerprint, {
-            color: result.error ? "danger" : "success",
-            content: (result.error || result.result).replaceAll(/<return>[^]+<\/return>/g, "")
-          })
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      
+      const chunk = decoder.decode(value);
+      const lines = chunk.split('\n').filter(line => line.trim());
+      
+      for (const line of lines) {
+        if (line.startsWith('data: ')) {
+          const jsonStr = line.slice(6);
+          if (jsonStr === '[DONE]') continue;
+          
+          try {
+            const jsonData = JSON.parse(jsonStr);
+            const content = jsonData.choices[0]?.delta?.content || '';
+            accumulatedResponse += content;
+            
+            // 更新UI显示
+            handleAddBubble(false, accumulatedResponse, null);
+          } catch (e) {
+            console.error('解析错误:', e);
+          }
         }
-      });
-    }, 100);
+      }
+    }
 
-    const command = pythonCommand({
-      HTTP_PROXY: proxyURL,
-      HTTPS_PROXY: proxyURL,
-      HF_ENDPOINT: mirrorURL,
-      PYTHONPATH: absolutePath
-    }, condaName, pythonFileName, {
-      query: prompts,
-      query_file_path: attachedFilePath ?? undefined,
-      logging_filedir: logDirectoryName,
-      logging_filename: logFileName,
-      logging_prefix: prefix
-    });
-
-    console.log(command);
-    exec(command, { cwd: absolutePath }, (err, stdout, stderr) => {
-      clearInterval(timerID);
-      stderr
-        ? reject({ type: "stderr", info: stderr })
-        : err
-        ? reject({ type: "cmderr", info: err })
-        : resolve(stdout);
-    });
-  })
-);
-
-export default sendPrompts;
-export {
-  sendPrompts,
+    return accumulatedResponse;
+  } catch (error) {
+    throw new Error(error.message);
+  }
 };
+
+// export default sendPrompts;
+// export {
+//   sendPrompts,
+// };
