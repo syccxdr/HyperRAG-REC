@@ -23,7 +23,7 @@ const getEnvironment = shuntSpawner(
   }
 );
 
-export const sendPrompts = async (prompts, attachedFilePath, operators) => {
+export const sendPromptsStream = async (prompts, attachedFilePath, operators) => {
   const { handleAddBubble } = operators;
   
   try {
@@ -85,7 +85,35 @@ export const sendPrompts = async (prompts, attachedFilePath, operators) => {
   }
 };
 
-// export default sendPrompts;
-// export {
-//   sendPrompts,
-// };
+// 2. 添加非流式响应的 sendPromptsNonStream 函数
+export const sendPromptsNonStream = async (prompts, attachedFilePath, operators) => {
+  const { handleAddBubble } = operators;
+  try {
+    const response = await fetch('http://10.64.87.40:10012/api/ask', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query: prompts
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    const message = data.response || "No response received.";
+    handleAddBubble(false, message, null);
+    return message;
+
+  } catch (error) {
+    console.error("Error in sendPromptsNonStream:", error.message);
+    throw new Error(error.message);
+  }
+};
+
+// 默认导出
+export const sendPrompts = sendPromptsNonStream;
+
