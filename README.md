@@ -38,7 +38,7 @@ As online shopping becomes increasingly complex, traditional recommender systems
 
 ## Getting Started
 
-- Clone the repository: `git clone https://github.com/syccxdr/HyperRAG-REC.git`
+- Clone the repository: `git clone https://github.com/syccxdr/HyperRAG-Rec.git`
 - Follow setup instructions in the `INSTALL.md` for dependencies and environment setup.
 
 ## Contributors
