@@ -1,4 +1,4 @@
-# HyperRAG-REC Sequence-Based Multi-Purpose Recommendation Assistant with RAG
+# HyperRAG-REC : Sequence-Based Multi-Purpose Recommendation Assistant with RAG
 
 <p align="center">
   <img src='HyperREc_introduction.png' width="100%">
