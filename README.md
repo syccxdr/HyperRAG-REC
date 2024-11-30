@@ -1,7 +1,7 @@
 # HyperRAG-REC Sequence-Based Multi-Purpose Recommendation Assistant with RAG
 
 <p align="center">
-  <img src='HyperREc_intro.png' width="100%">
+  <img src='HyperREc_introduction.png' width="100%">
 </p>
 
 **HyperRAG-REC** is an advanced  Multi-Purpose Recommendation Assistant guidance assistant designed to enhance the online shopping experience by providing personalized product recommendations, answering specific queries, and facilitating feature comparisons. Leveraging **Retrieval-Augmented Generation (RAG)** and **LLaRA (Large Language Recommendation Assistant)**, this project integrates large language models (LLMs) to create a dynamic and interactive shopping assistant.
