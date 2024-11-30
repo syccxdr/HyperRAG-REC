@@ -1,4 +1,8 @@
-# ShopSmart AI - Intelligent E-commerce Guidance Assistant
+# HYPERRAG-REC
+SEQUENCE-BASED
+MULTI-PURPOSE
+RECOMMENDATION
+ASSISTANT WITH RAG
 
 **ShopSmart AI** is an advanced shopping guidance assistant designed to enhance the online shopping experience by providing personalized product recommendations, answering specific queries, and facilitating feature comparisons. Leveraging **Retrieval-Augmented Generation (RAG)** and **LLaRA (Large Language Recommendation Assistant)**, this project integrates large language models (LLMs) to create a dynamic and interactive shopping assistant.
 
