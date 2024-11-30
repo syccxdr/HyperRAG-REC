@@ -1,12 +1,12 @@
-# HYPERRAG-REC
-SEQUENCE-BASED
-MULTI-PURPOSE
-RECOMMENDATION
-ASSISTANT WITH RAG
+# HyperRAG-REC Sequence-Based Multi-Purpose Recommendation Assistant with RAG
 
-**ShopSmart AI** is an advanced shopping guidance assistant designed to enhance the online shopping experience by providing personalized product recommendations, answering specific queries, and facilitating feature comparisons. Leveraging **Retrieval-Augmented Generation (RAG)** and **LLaRA (Large Language Recommendation Assistant)**, this project integrates large language models (LLMs) to create a dynamic and interactive shopping assistant.
+<p align="center">
+  <img src='HyperREc_intro.png' width="100%">
+</p>
 
-## What is ShopSmart?
+**HyperRAG-REC** is an advanced  Multi-Purpose Recommendation Assistant guidance assistant designed to enhance the online shopping experience by providing personalized product recommendations, answering specific queries, and facilitating feature comparisons. Leveraging **Retrieval-Augmented Generation (RAG)** and **LLaRA (Large Language Recommendation Assistant)**, this project integrates large language models (LLMs) to create a dynamic and interactive shopping assistant.
+
+## What is HyperRAG-REC?
 
 As online shopping becomes increasingly complex, traditional recommender systems often struggle with personalization and understanding nuanced user needs. ShopSmart AI aims to address these limitations by combining information retrieval techniques with generative LLMs to deliver relevant, tailored guidance to shoppers.
 
